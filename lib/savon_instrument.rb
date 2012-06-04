@@ -1,24 +1,23 @@
 module SavonInstrument
   class <<self
-    # Resets the instrument statistics and counts
     def reset!
       $soap_calls = {}
     end
 
-    def init #:nodoc:
+    def init
       $soap_calls ||= {}
     end
 
-    def data #:nodoc:
+    def data
       $soap_calls
     end
 
-    def add(method, time) #:nodoc:
+    def add(method, time)
       data[method] = time
     end
   end
 
-  class Middleware  #:nodoc:
+  class Middleware
     def initialize(app, options = {})
       @app = app
     end
@@ -29,7 +28,6 @@ module SavonInstrument
       begin
         if html_reponse?(headers)
           new_body = Rack::Response.new([], status, headers)
-          # raise 'In the middle of nowhere'
           body.each do |fragment|
             new_body.write fragment.gsub("</body>", "#{sql_html_overlay}</body>")
           end
