@@ -3,9 +3,9 @@
 #   config.autoload_paths += %W(#{config.root}/lib)
 
 Savon.configure do |c|
-  c.hooks.define('new_hook', :soap_request) do |req|
+  c.hooks.define('new_hook', :soap_request) do |callback, req|
     start_time = Time.now
-    response = HTTPI.post(req.http)
+    response = callback.call
     soap_action = req.http.headers['SoapAction'].split("/").last.gsub("\"", '')
     SavonInstrument.add soap_action, Time.now - start_time
     response
