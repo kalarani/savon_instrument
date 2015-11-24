@@ -10,5 +10,7 @@ Savon.configure do |c|
     soap_action = req.http.headers['SoapAction'].split("/").last.gsub("\"", '')
     SavonInstrument.add soap_action, Time.now - start_time
     response
+
+    # test
   end
 end
